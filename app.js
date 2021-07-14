@@ -1,4 +1,5 @@
 let isOn = false;
+let displayText = "";
 
 let operation = {
     firstOperand: null,
@@ -24,7 +25,31 @@ function powerCalc() {
     
     ledPower.style["background-color"] = "#ed4c6e";
     btnOnOff.textContent = "off";
-    screenText.textContent = "_"
+    screenText.textContent = "_";
     isOn = true;
 
+    getOperand();
+
+    const btnOperators = document.getElementsByName("operator");
+    
+    for(let i = 0; i < btnOperators.length; i++) {
+        btnOperators[i].addEventListener("click", e => { 
+            displayText += btnOperators[i].value;
+            screenText.textContent = `${displayText}`;
+        });
+    }
+    function getOperand() {
+        
+        const btnNumbers = document.getElementsByName("operand");
+    
+        for(let i = 0; i < btnNumbers.length; i++) {
+            btnNumbers[i].addEventListener("click", e => {
+                if(btnNumbers[i].value == "." && displayText.includes(".")) {
+                    return;
+                }
+                displayText += btnNumbers[i].value;
+                screenText.textContent = `${displayText}`;
+            });
+        }
+    }
 }
