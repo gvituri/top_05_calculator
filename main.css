@@ -14,7 +14,7 @@ main {
     width: 300px;
     height: 400px;
 
-    border-radius: 10px 10px 20px 10px;
+    border-radius: 10px 10px 25px 10px;
 
     display: grid;
     grid-template-rows: 20% 80%;
@@ -31,7 +31,7 @@ main {
     align-items: center;
     justify-content: center;
 
-    border-radius: 5px 5px 10px 5px;
+    border-radius: 5px 5px 12px 5px;
     
     margin: 10px;
 
@@ -49,19 +49,26 @@ main {
 
     margin-right: 5px;
 
-    background-color: #ed4c6e;
+    background-color: #592326;
 }
 
 #screen {
     height: 80%;
     width: 80%;
 
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
     border: 1px solid #2b2a2d;;
 
     margin-right: 15px;
 
     background-color: #6eae54;
+}
 
+p {
+    padding-right: 5px;
     font-size: 35px;
 }
 
@@ -72,7 +79,7 @@ main {
     box-sizing: border-box;
     
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 5px 5px 15px 5px;
     margin: 10px;
 
     display: grid;
@@ -85,7 +92,6 @@ main {
 button {
     border: 1px solid black;
     border-radius: 5px;
-
     background-color: #2b2a2d ;
     color: #c7c1be;
 
@@ -157,6 +163,7 @@ button {
 #result {
     grid-row: 4/6;
     grid-column: 5/6;
+    border-radius: 5px 5px 15px 5px;
 }
 
 #negative {

@@ -17,33 +17,35 @@
         <main>
             <div id="display">
                 <div id="led-display"></div>
-                <div id="screen">0123456789</div>
+                <div id="screen">
+                    <p id="screen-text"></p>
+                </div>
             </div>
             <div id="button-holder">
-                <button id="on-off">on</button>
-                <button id="clear" class="atention">C</button>
-                <button id="backspace" class="atention">&lt;</button>
-                <button id="addition" class="operator">+</button>
-                <button id="subtraction" class="operator">-</button>
-                <button id="multiplication" class="operator">*</button>
-                <button id="division" class="operator">/</button>
-                <button id="percentage" class="operator">%</button>
-                <button id="gwv">GWV</button>
-                <button id="result">=</button>
-                <button id="negative">+/-</button>
-                <button id="dot">.</button>
-                <button id="number-one" class="number">1</button>
-                <button id="number-two" class="number">2</button>
-                <button id="number-three" class="number">3</button>
-                <button id="number-four" class="number">4</button>
-                <button id="number-five" class="number">5</button>
-                <button id="number-six" class="number">6</button>
-                <button id="number-seven" class="number">7</button>
-                <button id="number-eight" class="number">8</button>
-                <button id="number-nine" class="number">9</button>
-                <button id="number-zero" class="number">0</button>
+                <button name="function" id="on-off">on</button>
+                <button name="function" id="clear" class="atention">C</button>
+                <button name="function" id="backspace" class="atention">&lt;</button>
+                <button name="operator" value="+" id="addition" class="operator">+</button>
+                <button name="operator" value="-" id="subtraction" class="operator">-</button>
+                <button name="operator" value="*" id="multiplication" class="operator">*</button>
+                <button name="operator" value="/" id="division" class="operator">/</button>
+                <button name="operator" value="%" id="percentage" class="operator">%</button>
+                <button name="function" id="gwv">GWV</button>
+                <button name="function" id="result">=</button>
+                <button name="function" id="negative">+/-</button>
+                <button name="operand" value="." id="dot">.</button>
+                <button name="operand" value="1" id="number-one" class="number">1</button>
+                <button name="operand" value="2" id="number-two" class="number">2</button>
+                <button name="operand" value="3" id="number-three" class="number">3</button>
+                <button name="operand" value="4" id="number-four" class="number">4</button>
+                <button name="operand" value="5" id="number-five" class="number">5</button>
+                <button name="operand" value="6" id="number-six" class="number">6</button>
+                <button name="operand" value="7" id="number-seven" class="number">7</button>
+                <button name="operand" value="8" id="number-eight" class="number">8</button>
+                <button name="operand" value="9" id="number-nine" class="number">9</button>
+                <button name="operand" value="0" id="number-zero" class="number">0</button>
             </div>
-
         </main>        
     </body>
+    <script type="text/javascript" src="./app.js"></script>    
 </html>
