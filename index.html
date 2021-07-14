@@ -6,12 +6,19 @@
         <title>TOP Calculator</title>
         <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Circle_Burgundy_Solid.svg/1200px-Circle_Burgundy_Solid.svg.png">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600&display=swap" rel="stylesheet"> 
+
         <link type="text/css" rel="stylesheet" href="./reset.css">
         <link type="text/css" rel="stylesheet" href="./main.css">
     </head>
     <body>
         <main>
-            <div id="display">display</div>
+            <div id="display">
+                <div id="led-display"></div>
+                <div id="screen">0123456789</div>
+            </div>
             <div id="button-holder">
                 <button id="on-off">on</button>
                 <button id="clear" class="atention">C</button>
@@ -21,7 +28,7 @@
                 <button id="multiplication" class="operator">*</button>
                 <button id="division" class="operator">/</button>
                 <button id="percentage" class="operator">%</button>
-                <button id="gwv">gwv</button>
+                <button id="gwv">GWV</button>
                 <button id="result">=</button>
                 <button id="negative">+/-</button>
                 <button id="dot">.</button>
