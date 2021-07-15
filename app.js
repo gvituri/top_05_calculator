@@ -1,11 +1,5 @@
 let isOn = false;
-let displayText = "";
-
-let operation = {
-    firstOperand: null,
-    operator: null,
-    secondOperand: null,
-}
+let currentDisplay = "";
 
 const btnOnOff = document.querySelector("#on-off");
 
@@ -23,10 +17,21 @@ function powerCalc() {
         return;
     }
     
+    /*Inicializing the calculator*/
+    isOn = true;
     ledPower.style["background-color"] = "#ed4c6e";
     btnOnOff.textContent = "off";
-    screenText.textContent = "_";
-    isOn = true;
+    screenText.textContent = "_";         
+    let lastOperand = "0";
+    let currentOperand = "0";
+    clearMemory();
+
+    /*Getting the functionality buttons and assigning functions*/
+    const btnClear = document.querySelector("#clear");
+    btnClear.onclick = clearMemory;
+
+    const btnBack = document.querySelector("#backspace");
+    btnBack.onclick = eraseLast;
 
     getOperand();
 
@@ -34,8 +39,8 @@ function powerCalc() {
     
     for(let i = 0; i < btnOperators.length; i++) {
         btnOperators[i].addEventListener("click", e => { 
-            displayText += btnOperators[i].value;
-            screenText.textContent = `${displayText}`;
+            currentOperand += btnOperators[i].value;
+            screenText.textContent = `${currentOperand}`;
         });
     }
     function getOperand() {
@@ -44,12 +49,31 @@ function powerCalc() {
     
         for(let i = 0; i < btnNumbers.length; i++) {
             btnNumbers[i].addEventListener("click", e => {
-                if(btnNumbers[i].value == "." && displayText.includes(".")) {
+                if(btnNumbers[i].value == "." && currentOperand.includes(".")) {
                     return;
                 }
-                displayText += btnNumbers[i].value;
-                screenText.textContent = `${displayText}`;
+                currentOperand += btnNumbers[i].value;
+                screenText.textContent = `${currentOperand}`;
             });
         }
+    }
+
+    function clearMemory() {
+        lastOperand = "0";
+        currentOperand = "0";
+        screenText.textContent = currentOperand;  
+    }
+
+    function eraseLast() {
+        if(currentOperand == "0") {
+            return;
+        }
+        
+        let operandArray = Array.from(currentOperand);
+        operandArray.pop();
+        console.table(operandArray);
+        currentOperand = operandArray.join("");
+        console.log(currentOperand);
+        screenText.textContent = currentOperand;  
     }
 }
