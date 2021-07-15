@@ -1,5 +1,5 @@
+/*
 let isOn = false;
-let currentDisplay = "";
 
 const btnOnOff = document.querySelector("#on-off");
 
@@ -17,7 +17,7 @@ function powerCalc() {
         return;
     }
     
-    /*Inicializing the calculator*/
+    Inicializing the calculator
     isOn = true;
     ledPower.style["background-color"] = "#ed4c6e";
     btnOnOff.textContent = "off";
@@ -27,7 +27,7 @@ function powerCalc() {
     let isPositive = true;
     clearMemory();
 
-    /*Getting the functionality buttons and assigning functions*/
+    Getting the functionality buttons and assigning functions
     const btnClear = document.querySelector("#clear");
     btnClear.onclick = clearMemory;
 
@@ -114,4 +114,81 @@ function powerCalc() {
         isPositive = !isPositive;
         return Math.abs(currentOperand);
     }
+}
+*/
+let ISPOWERED = false;
+
+let DISPLAYTEXT = null;
+
+let FIRSTOPERAND = null;
+let SECONDOPERAND = null;
+let OPERATOR = null;
+
+const getButton = function() {
+    switch (this.name) {
+        case "function":
+            console.log("call function to deal with function buttons");
+            break;
+        case "operator":
+            console.log("call function to deal with operators");
+            break;
+        case "number":
+            console.log("call function do deal with numbers");
+            break;
+        default:
+            console.log("humm, that wasn't really supposed to happen...");
+    }
+};
+
+const btnPower = document.querySelector("#power");
+btnPower.addEventListener("click", e => {
+    if(!ISPOWERED) {
+        powerOn();
+        return;
+    }
+    powerOff();
+});
+
+function powerOn() {
+
+    console.log("Calculator turned ON");
+
+    const buttons = document.getElementsByTagName("button");
+    for(let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", getButton);
+    }
+
+    ISPOWERED = true;
+}
+
+function powerOff() {
+
+    console.log("Calculator turned OFF");
+
+    const buttons = document.getElementsByTagName("button");
+    for(let i = 0; i < buttons.length; i++) {
+        buttons[i].removeEventListener("click", getButton);
+    }
+
+    ISPOWERED = false;
+}
+
+function operate(firstOperand, secondOperand, operator) {
+    let operationResult = null;
+    switch(operator) {
+        case "+":
+            operationResult = firstOperand + secondOperand;
+            break;
+        case "-":
+            operationResult = firstOperand - secondOperand;
+            break;
+        case "*":
+            operationResult = firstOperand * secondOperand;
+            break;
+        case "/":
+            operationResult = firstOperand / secondOperand;
+            break;
+        default:
+    }
+    return operationResult;
 }
