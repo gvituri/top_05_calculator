@@ -185,22 +185,28 @@ function powerOff() {
 
 function operate(firstOperand, secondOperand, operator) {
     let operationResult = null;
+    firstOperand =  Number(firstOperand);
+    secondOperand =  Number(secondOperand);
+    console.log(firstOperand, operator, secondOperand);
+
     switch(operator) {
         case "+":
-            operationResult = firstOperand + secondOperand;
+            operandInDisplay = (firstOperand + secondOperand).toString();
             break;
         case "-":
-            operationResult = firstOperand - secondOperand;
+            operandInDisplay = (firstOperand - secondOperand).toString();
             break;
         case "*":
-            operationResult = firstOperand * secondOperand;
+            operandInDisplay = (firstOperand * secondOperand).toString();
             break;
         case "/":
-            operationResult = firstOperand / secondOperand;
+            operandInDisplay = (firstOperand / secondOperand).toString();
             break;
         default:
     }
-    return operationResult;
+
+    operandInMemory = secondOperand.toString();
+    updateDisplay();
 }
 
 function triggerBtnFunction(btnFunction) {
@@ -220,12 +226,26 @@ function triggerBtnFunction(btnFunction) {
 }
 
 function triggerBtnOperator(btnOperator) {
-    console.log("Triggering button operator", btnOperator);
+    switch(btnOperator) {
+        case "%":
+            break;
+        case "+/-":
+            operandInDisplay = (Number(operandInDisplay) * -1).toString();
+            updateDisplay();
+            break;
+        case "=":
+            operate(operandInMemory, operandInDisplay, operatorInDisplay);
+            break;
+        default:
+            operatorInDisplay = btnOperator;
+            operate(operandInMemory, operandInDisplay, operatorInDisplay);
+            operandInMemory = operandInDisplay
+            operandInDisplay = "0";
+    }
 
 }
 
 function triggerBtnNumber(btnNumber) {
-    console.log("Triggering button number", btnNumber);
     if(operandInDisplay == "0") {
         if(btnNumber == "0") {
             updateDisplay();
