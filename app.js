@@ -116,24 +116,22 @@ function powerCalc() {
     }
 }
 */
-let ISPOWERED = false;
+let isPowered = false;
 
-let DISPLAYTEXT = null;
-
-let FIRSTOPERAND = null;
-let SECONDOPERAND = null;
-let OPERATOR = null;
+let operandInMemory = null;
+let operandInDisplay = null;
+let operatorInDisplay = null;
 
 const getButton = function() {
     switch (this.name) {
         case "function":
-            console.log("call function to deal with function buttons");
+            triggerBtnFunction(this.value);
             break;
         case "operator":
-            console.log("call function to deal with operators");
+            triggerBtnOperator(this.value);
             break;
         case "number":
-            console.log("call function do deal with numbers");
+            triggerBtnNumber(this.value);
             break;
         default:
             console.log("humm, that wasn't really supposed to happen...");
@@ -142,7 +140,7 @@ const getButton = function() {
 
 const btnPower = document.querySelector("#power");
 btnPower.addEventListener("click", e => {
-    if(!ISPOWERED) {
+    if(!isPowered) {
         powerOn();
         return;
     }
@@ -151,26 +149,38 @@ btnPower.addEventListener("click", e => {
 
 function powerOn() {
 
-    console.log("Calculator turned ON");
+    const ledPower = document.querySelector("#led-display");
+    ledPower.style["background-color"] = "#ed4c6e";
+
+    btnPower.textContent = "off";
 
     const buttons = document.getElementsByTagName("button");
     for(let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("click", getButton);
     }
 
-    ISPOWERED = true;
+    operandInMemory = "0";
+    operandInDisplay = "0";
+    operatorInDisplay = "=";
+    isPowered = true;
+    updateDisplay();
+    
 }
 
 function powerOff() {
 
-    console.log("Calculator turned OFF");
+    const ledPower = document.querySelector("#led-display");
+    ledPower.style["background-color"] = "#592326";
+
+    btnPower.textContent = "on";
 
     const buttons = document.getElementsByTagName("button");
     for(let i = 0; i < buttons.length; i++) {
         buttons[i].removeEventListener("click", getButton);
     }
 
-    ISPOWERED = false;
+    isPowered = false;
+    updateDisplay();
 }
 
 function operate(firstOperand, secondOperand, operator) {
@@ -191,4 +201,56 @@ function operate(firstOperand, secondOperand, operator) {
         default:
     }
     return operationResult;
+}
+
+function triggerBtnFunction(btnFunction) {
+    console.log("Triggering button function", btnFunction);
+    switch(btnFunction) {
+        case "clear":
+            console.log("Clear memory and screen");
+            break;
+        case "back":
+            console.log("Erase last digit. If negative, erase digit and sign");
+            break;
+        case "gwv":
+            console.log("Take user to Github or portfolio");
+            break;
+        default:
+    }
+}
+
+function triggerBtnOperator(btnOperator) {
+    console.log("Triggering button operator", btnOperator);
+
+}
+
+function triggerBtnNumber(btnNumber) {
+    console.log("Triggering button number", btnNumber);
+    if(operandInDisplay == "0") {
+        if(btnNumber == "0") {
+            updateDisplay();
+            return;
+        }else if(btnNumber != ".") {
+            operandInDisplay = btnNumber;
+            updateDisplay();
+            return;
+        }
+    }else if(btnNumber == "." && operandInDisplay.includes(".")) {
+        updateDisplay();
+        return;
+    }
+
+    operandInDisplay += btnNumber;
+    updateDisplay();
+}
+
+function updateDisplay() {
+    const screenText = document.querySelector("#screen-text");
+
+    if(!isPowered){
+        screenText.textContent = "";
+        return;
+    }
+
+    screenText.textContent = operandInDisplay;
 }
