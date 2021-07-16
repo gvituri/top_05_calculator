@@ -161,7 +161,7 @@ function powerOn() {
     }
 
     numberOnDisplay = "0";
-    operator = "=";
+    operator = null;
     isPowered = true;
     updateDisplay();
     
@@ -191,6 +191,17 @@ function operate(firstOperand, secondOperand, operatorInUse) {
     firstOperand = Number(firstOperand);
     secondOperand = Number(secondOperand);
     let result;
+
+    if(secondOperand == "0" && operatorInUse == "/") {
+        const screenText = document.querySelector("#screen-text");
+        screenText.textContent = "Sure, buddy...";
+        alert("Haha, very funny!..");
+
+        result = 0;
+        triggerBtnFunction("clear");
+        return result;
+    }
+
     switch(operatorInUse) {
         case "+":
             result = firstOperand + secondOperand;
@@ -207,23 +218,72 @@ function operate(firstOperand, secondOperand, operatorInUse) {
         default:
     }
 
-    console.log(result);
-    return result.toString();
+    operandOne = null;
+    operandTwo = null;
+    operator = null;
+    return result;
 }
 
 function triggerBtnOperator(btnOperator) {
 
     switch(btnOperator) {
         case "%":
+            console.log(operandOne, operator, operandTwo,  numberOnDisplay);
+            if(operandOne == null) {
+                return;
+            } else {
+                if(operator == null) {
+                    return;
+                } else {
+                    operandTwo = (numberOnDisplay / 100) * operandOne;
+                    numberOnDisplay = (operate(operandOne, operandTwo, operator)).toString();
+                    updateDisplay();
+                    operandOne = numberOnDisplay;
+                    numberOnDisplay = "0";
+                }
+            }
             break;
         case "+/-":
             numberOnDisplay = (Number(numberOnDisplay) * -1).toString();
             updateDisplay();
             break;
         case "=":
+            if(operandOne == null) {
+                return;
+            } else {
+                if(operator == null){
+                    return;
+                } else {
+                    operandTwo = numberOnDisplay;
+                    numberOnDisplay = (operate(operandOne, operandTwo, operator)).toString();
+                    updateDisplay();
+                    operandOne = numberOnDisplay;
+                    numberOnDisplay = "0";
+                }
+            }
             break;
         default:
-            /* When any operator is clicked */
+            if(operandOne == null) {
+                if(numberOnDisplay == "0") {
+                    return;
+                } else {
+                    operandOne = numberOnDisplay;
+                    numberOnDisplay = "0";
+                    operator = btnOperator;
+                }
+            } else {
+                if(operator == null) {
+                    operator = btnOperator;
+                    return;
+                } else {
+                    operandTwo = numberOnDisplay;
+                    numberOnDisplay = (operate(operandOne, operandTwo, operator)).toString();
+                    updateDisplay();
+                    operandOne = numberOnDisplay;
+                    numberOnDisplay = "0";
+                    operator = btnOperator;
+                }
+            }
     }
 
 }
@@ -264,9 +324,8 @@ function triggerBtnFunction(btnFunction) {
             break;
         case "back":
             let displayArray = Array.from(numberOnDisplay);
-            console.table(displayArray);
+
             displayArray.pop();
-            console.table(displayArray);
     
             if(displayArray.length == 1 && displayArray[0] == "-") {
                 displayArray = [];
