@@ -302,7 +302,9 @@ function triggerBtnNumber(btnNumber) {
                 updateDisplay();
                 return;
             }
-        } else if(btnNumber == "." && numberOnDisplay.includes(".")) {
+        }
+        
+        if(btnNumber == "." && numberOnDisplay.includes(".")) {
             updateDisplay();
             return;
         } else {   
