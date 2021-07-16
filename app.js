@@ -118,9 +118,10 @@ function powerCalc() {
 */
 let isPowered = false;
 
-let operandInMemory = null;
-let operandInDisplay = null;
-let operatorInDisplay = null;
+let operandOne = null;
+let operator = null;
+let operandTwo = null;
+let numberOnDisplay = null;
 
 const getButton = function() {
     switch (this.name) {
@@ -159,9 +160,8 @@ function powerOn() {
         buttons[i].addEventListener("click", getButton);
     }
 
-    operandInMemory = "0";
-    operandInDisplay = "0";
-    operatorInDisplay = "=";
+    numberOnDisplay = "0";
+    operator = "=";
     isPowered = true;
     updateDisplay();
     
@@ -180,88 +180,112 @@ function powerOff() {
     }
 
     isPowered = false;
+    operandOne = null;
+    operator = null;
+    operandTwo = null;
+    numberOnDisplay = null;
     updateDisplay();
 }
 
-function operate(firstOperand, secondOperand, operator) {
-    let operationResult = null;
-    firstOperand =  Number(firstOperand);
-    secondOperand =  Number(secondOperand);
-    console.log(firstOperand, operator, secondOperand);
-
-    switch(operator) {
+function operate(firstOperand, secondOperand, operatorInUse) {
+    firstOperand = Number(firstOperand);
+    secondOperand = Number(secondOperand);
+    let result;
+    switch(operatorInUse) {
         case "+":
-            operandInDisplay = (firstOperand + secondOperand).toString();
+            result = firstOperand + secondOperand;
             break;
         case "-":
-            operandInDisplay = (firstOperand - secondOperand).toString();
+            result = firstOperand - secondOperand;
             break;
         case "*":
-            operandInDisplay = (firstOperand * secondOperand).toString();
+            result = firstOperand * secondOperand;
             break;
         case "/":
-            operandInDisplay = (firstOperand / secondOperand).toString();
+            result = firstOperand / secondOperand;
             break;
         default:
     }
 
-    operandInMemory = secondOperand.toString();
-    updateDisplay();
-}
-
-function triggerBtnFunction(btnFunction) {
-    console.log("Triggering button function", btnFunction);
-    switch(btnFunction) {
-        case "clear":
-            console.log("Clear memory and screen");
-            break;
-        case "back":
-            console.log("Erase last digit. If negative, erase digit and sign");
-            break;
-        case "gwv":
-            console.log("Take user to Github or portfolio");
-            break;
-        default:
-    }
+    console.log(result);
+    return result.toString();
 }
 
 function triggerBtnOperator(btnOperator) {
+
     switch(btnOperator) {
         case "%":
             break;
         case "+/-":
-            operandInDisplay = (Number(operandInDisplay) * -1).toString();
+            numberOnDisplay = (Number(numberOnDisplay) * -1).toString();
             updateDisplay();
             break;
         case "=":
-            operate(operandInMemory, operandInDisplay, operatorInDisplay);
             break;
         default:
-            operatorInDisplay = btnOperator;
-            operate(operandInMemory, operandInDisplay, operatorInDisplay);
-            operandInMemory = operandInDisplay
-            operandInDisplay = "0";
+            /* When any operator is clicked */
     }
 
 }
 
 function triggerBtnNumber(btnNumber) {
-    if(operandInDisplay == "0") {
-        if(btnNumber == "0") {
-            updateDisplay();
-            return;
-        }else if(btnNumber != ".") {
-            operandInDisplay = btnNumber;
-            updateDisplay();
-            return;
-        }
-    }else if(btnNumber == "." && operandInDisplay.includes(".")) {
-        updateDisplay();
-        return;
-    }
 
-    operandInDisplay += btnNumber;
-    updateDisplay();
+    if((Array.from(numberOnDisplay)).length == 10) {
+        return;
+    } else {
+        if(numberOnDisplay == "0") {
+            if(btnNumber == "0") {
+                updateDisplay();
+                return;
+            } else if(btnNumber != ".") {
+                numberOnDisplay = btnNumber;
+                updateDisplay();
+                return;
+            }
+        } else if(btnNumber == "." && numberOnDisplay.includes(".")) {
+            updateDisplay();
+            return;
+        } else {   
+            numberOnDisplay += btnNumber;
+            updateDisplay();
+        }
+    }
+}
+
+
+function triggerBtnFunction(btnFunction) {
+    switch(btnFunction) {
+        case "clear":
+            operandOne = null;
+            operator = null;
+            operandTwo = null;
+            numberOnDisplay = "0";
+            updateDisplay();
+            break;
+        case "back":
+            let displayArray = Array.from(numberOnDisplay);
+            console.table(displayArray);
+            displayArray.pop();
+            console.table(displayArray);
+    
+            if(displayArray.length == 1 && displayArray[0] == "-") {
+                displayArray = [];
+                displayArray.push("0");
+                isPositive = true;
+            } else if (displayArray[0] == "0") {
+                return;
+            } else if(displayArray.length == 0) {
+                displayArray.push("0");
+            }
+    
+            numberOnDisplay = displayArray.join("");
+            updateDisplay();
+            break;
+        case "gwv":
+            window.location.href = "https://github.com/gvituri";
+            break;
+        default:
+    }
 }
 
 function updateDisplay() {
@@ -270,7 +294,7 @@ function updateDisplay() {
     if(!isPowered){
         screenText.textContent = "";
         return;
+    } else {
+        screenText.textContent = numberOnDisplay;
     }
-
-    screenText.textContent = operandInDisplay;
 }
